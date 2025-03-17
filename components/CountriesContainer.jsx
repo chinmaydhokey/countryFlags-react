@@ -1,17 +1,43 @@
-import React, { useState } from "react";
-import Data from "../Data";
+import React, { useEffect, useState } from "react";
+// import Data from "../Data";
 import CountryCard from "./CountryCard";
 
 export default function CountriesContainer({query, continent}) {
-
-    let filtered = Data
-    console.log("filtered ", filtered)
-    console.log(continent)
+    
+    let [countriesData , setCountriesData] = useState([]);
+    let [count,setCount] = useState(0);
+    
+    let filtered = countriesData
+    
     if(continent !== ""){
-        filtered = Data.filter((country) => country.region == continent)
+        filtered = countriesData.filter((country) => country.region == continent)
     }
         filtered = filtered.filter((country) => country.name.common.toLowerCase().includes(query))
 
+
+    //When  we directly fetch the requests fusing fetch function multiple requests are made to the backend👇
+    
+    // fetch('https://restcountries.com/v3.1/all')
+    // .then((res)=>res.json())
+    // .then((data)=>{
+    //     setCountriesData(data)
+    //     console.log(countriesData)
+    // })
+    // console.log("hi")    
+
+    useEffect(()=>{
+        fetch('https://restcountries.com/v3.1/all')
+        .then((res)=>res.json())
+        .then((data)=>{
+            setCountriesData(data)
+            // console.log(countriesData)
+        })
+        // console.log("hi")
+        return ()=> {
+            console.log("Cleaning UP") //clean up function
+        }
+    },[])
+    
 
     // console.log(filtered);
 
@@ -30,7 +56,11 @@ export default function CountriesContainer({query, continent}) {
 
   });
 
-  return <div className="countries-container">
-        {arr}
-  </div>;
+  return <>
+  {/* <h1>{count}</h1>
+  <button onClick={()=>setCount(count+1)}>Increment</button> */}
+    <div className="countries-container">
+            {arr}
+    </div>;
+  </>
 }

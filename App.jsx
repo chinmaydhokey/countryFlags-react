@@ -18,7 +18,10 @@ const App = ()=>{
                     <SearchBar setQuery={setQuery}/>
                 </div>
             </main>
-            <CountriesContainer query={query} continent={continent}/>
+            {
+                query === "unmount" ? '' : <CountriesContainer query={query} continent={continent}/>
+            }
+            
         </>
     )
 }
