@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 // import Data from "../Data";
 import CountryCard from "./CountryCard";
+import CountryCardsShimmer from "./CountryCardsShimmer";
 
-export default function CountriesContainer({query, continent}) {
+export default function CountriesContainer({query, continent, theme}) {
     
     let [countriesData , setCountriesData] = useState([]);
     let [count,setCount] = useState(0);
+    let [loading, setLoading] = useState(true)
+    const [isDark, setIsDark] = theme;
     
     let filtered = countriesData
     
@@ -30,6 +33,7 @@ export default function CountriesContainer({query, continent}) {
         .then((res)=>res.json())
         .then((data)=>{
             setCountriesData(data)
+            setLoading(false)
             // console.log(countriesData)
         })
         // console.log("hi")
@@ -50,17 +54,19 @@ export default function CountriesContainer({query, continent}) {
             population={country.population}
             region={country.region}
             capital={country.capital}
+            data={country}
             />
         );
     
 
   });
 
-  return <>
+  return <div className={`${isDark ? 'dark' : ''}`}>
   {/* <h1>{count}</h1>
   <button onClick={()=>setCount(count+1)}>Increment</button> */}
-    <div className="countries-container">
+  {loading&&<CountryCardsShimmer/>}
+    <div className={`countries-container ${isDark ? 'dark' : ''}`}>
             {arr}
     </div>;
-  </>
+  </div>
 }
