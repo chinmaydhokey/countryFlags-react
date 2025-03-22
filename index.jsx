@@ -7,6 +7,7 @@ import SearchBar from "./components/SearchBar";
 import SelectMenu from "./components/SelectMenu";
 import Error from "./components/Error";
 import CountryDetail from "./components/CountryDetails";
+import Home from "./components/Home";
 
 const router = createBrowserRouter([
     {
@@ -14,19 +15,20 @@ const router = createBrowserRouter([
         element: <App/>,
         errorElement: <Error/>,
         children:[
-            
+            {
+                path: '/',
+                element: <Home/>
+            },
+            {
+                path: '/:CountryDetail',
+                element: <CountryDetail/>
+            },
+            {
+                path: '/contact',
+                element: <div>Hello World</div>
+            },
         ]
-    },
-    {
-        path: '/:CountryDetail',
-        element: <CountryDetail/>
-    },
-    {
-        path: '/contact',
-        element: <div>Hello World</div>
-    },
-    
-    
+    },    
 ])
 
 const root = createRoot(document.querySelector('#root'))
